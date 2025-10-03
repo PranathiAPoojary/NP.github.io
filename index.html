@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boyfriend’s Day!💖</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Georgia&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* BASE STYLES & SCROLL SNAPPING FOR NAVIGATION */
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling between sections */
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #ffccd5, #ffadcd); 
+            color: #4a001a;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+            /* Enable scroll snapping for a controlled, page-like scroll */
+            scroll-snap-type: y mandatory; 
+        }
+
+        /* Full-Height Sections for Navigability */
+        .page-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            scroll-snap-align: start; /* Snap to the top of the viewport */
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Content Container Style */
+        .container {
+            background-color: rgba(255, 255, 255, 0.85); 
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 0 40px rgba(255, 105, 180, 0.5);
+            max-width: 950px;
+            width: 90%;
+            backdrop-filter: blur(5px);
+            z-index: 20;
+        }
+
+        /* --- Fixed Confetti Background (Mini Pink Hearts) --- */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            background: #ff69b4; 
+            width: 8px;
+            height: 8px;
+            opacity: 0.8;
+            border-radius: 50%;
+            transform: rotate(-45deg);
+            animation: fall 10s linear infinite;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            background: inherit;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -4px; left: 0; }
+        .heart::after { top: 0; left: 4px; }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- Typing Message Styling --- */
+        #typingMessageContainer {
+            min-height: 4.5em; 
+            margin: 20px 0;
+        }
+
+        #typingMessage {
+            font-family: 'Dancing Script', cursive; 
+            font-size: 3.5em; 
+            color: #e91e63;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.2;
+            display: inline-block;
+            white-space: pre; 
+            overflow: hidden;
+            border-right: 3px solid rgba(255, 105, 180, .75); 
+            animation: blink-caret .75s step-end infinite;
+            padding-right: 5px;
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: rgba(255, 105, 180, .75); }
+        }
+        
+        /* --- Button & Gift Styling --- */
+        #celebrateButton {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            background-color: #ff69b4;
+            color: white;
+            font-size: 1.6em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        #celebrateButton:hover {
+            background-color: #e91e63;
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.8);
+        }
+
+        .surprise-gift {
+            margin: 20px auto;
+            padding: 30px;
+            background: linear-gradient(to right top, #ffe4e1, #ffc0cb);
+            color: #4a001a;
+            border: 3px solid #e91e63;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(233, 30, 99, 0.7), inset 0 0 10px rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            transform: scale(0.6); 
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+            pointer-events: none;
+            max-width: 600px;
+        }
+
+        .surprise-gift.visible { opacity: 1; transform: scale(1); pointer-events: auto; }
+        .surprise-gift h2 { font-family: 'Dancing Script', cursive; color: #e91e63; font-size: 2.8em; margin-top: 0; }
+        .surprise-gift p { font-size: 1.3em; line-height: 1.5; }
+        .surprise-gift .signature { font-style: italic; color: #b71c1c; font-size: 1.1em; }
+
+        /* --- Cake Image Styling: Centering and Size Adjusted --- */
+        .cake-image-container {
+            margin: 20px auto; /* Ensures horizontal centering */
+            max-width: 450px; 
+            width: 100%; 
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .cake-image-container:hover { transform: scale(1.05); }
+
+        .cake-image-container img {
+            width: 50%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 30px #ff69b4;
+            border: 5px solid white;
+        }
+        
+        /* --- Memories/Photos Section Styling (Scrollable inside its container) --- */
+        #section-memories {
+            padding-top: 50px; 
+            height: auto; 
+            min-height: 100vh;
+        }
+
+        .memories-section {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 0 30px rgba(255, 105, 180, 0.4);
+            width: 100%;
+            max-width: 850px;
+            box-sizing: border-box;
+            margin-bottom: 50px; 
+        }
+
+        .memories-section h2 { font-family: 'Dancing Script', cursive; color: #e91e63; font-size: 3em; margin-top: 0; }
+
+        .photo-gallery {
+            /* Adjusted grid to ensure good size and spacing */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 220px; /* Fixed height for uniformity in the gallery */
+            object-fit: cover;
+            border-radius: 15px;
+            border: 5px solid #fff;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 105, 180, 0.3);
+            transition: transform 0.4s ease-in-out, border-color 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.1) rotate(5deg);
+            border-color: #ff69b4;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 105, 180, 0.6);
+            z-index: 10;
+        }
+        
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+            .page-section { padding: 10px; }
+            .container { padding: 30px 15px; }
+            #typingMessage { font-size: 2.2em; }
+            .cake-image-container { max-width: 90%; }
+            .photo-gallery { grid-template-columns: 1fr; gap: 20px; }
+            .gallery-img { height: 180px; } 
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <div id="section-welcome" class="page-section">
+        <div class="container">
+            <h1 style="display: none;">Welcome</h1>
+            
+            <div id="typingMessageContainer">
+                <span id="typingMessage"></span>
+            </div>
+
+            <button id="celebrateButton">💖 Open Your Heartfelt Gift 💖</button>
+        </div>
+    </div>
+    
+    <div id="section-surprise" class="page-section">
+        <div class="container">
+            <h2>Your Gifts!🥳</h2>
+            
+            <div id="surpriseGift" class="surprise-gift">
+                <h2>A Special Surprise For You!💖</h2>
+                <p>My darling,💖 this day is all about celebrating you. Happy Boyfriend’s Day, Nikhil ❤️🥹 Through every fight 😤, every tear 😢, and every challenge 💔, we’ve grown stronger together 🌱💖. Our love isn’t perfect, but it’s ours 🫶✨. Thank you for loving me, for growing with me, and for being my person 🥰💞. Here’s to us, always 🥂❤️</p>
+                <p class="signature">- With All My Love, Your Paranthi💖</p>
+            </div>
+
+            <div class="cake-image-container">
+                <img src="cake_image.png1.jpg" alt="A beautiful birthday cake" title="Hover to make the cake sparkle!">
+            </div>
+        </div>
+    </div>
+
+    <div id="section-memories" class="page-section">
+        <div class="memories-section">
+            <h2>Treasured Moments, Just For Us!🥰💖</h2>
+            <div class="photo-gallery">
+                <img src="photo1.jpg." alt="A beautiful shared memory" class="gallery-img">
+                <img src="photo2.jpg" alt="Another sweet memory" class="gallery-img">
+                <img src="photo3.jpg" alt="A fun adventure together" class="gallery-img">
+                <img src="photo4.jpg" alt="A loving snapshot" class="gallery-img">
+                <img src="photo5.jpg" alt="Happy times always" class="gallery-img">
+                <img src="photo6.jpg" alt="Our special bond" class="gallery-img">
+            </div>
+            <p>Each of these moments shines brightly in my heart.🫶 Here's to creating countless more beautiful memories together!</p>
+        </div>
+    </div>
+
+    <audio id="birthdayMusic" src="romantic_birthday_song.mp3" preload="auto" loop></audio>
+
+    <script>
+        // --- 1. Looping Typing Message Logic ---
+        const NAME = "Name!"; // <<< CUSTOMIZE NAME HERE!
+        
+        const messages = [
+            `Happy Boyfriend’s Day! Nikhil❤️🥹`,
+            "You are my favourite person in the world.",
+            "I love you more than words can say.",
+            "You make my life so much brighter.",
+            "Thank you for being you, always.",
+            "Here's to many more beautiful moments together.",
+            "You are my everything, now and forever.",
+        ];
+        let messageIndex = 0;
+        let charIndex = 0;
+        const typingElement = document.getElementById('typingMessage');
+        const speed = 75; 
+        const delay = 2000; 
+
+        function type() {
+            if (charIndex < messages[messageIndex].length) {
+                typingElement.innerHTML += messages[messageIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, speed);
+            } else {
+                setTimeout(erase, delay);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typingElement.innerHTML = messages[messageIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, speed / 2.5);
+            } else {
+                messageIndex = (messageIndex + 1) % messages.length;
+                setTimeout(type, 500); 
+            }
+        }
+        
+        // --- 2. Heart Confetti Generation ---
+        function generateHearts() {
+            const container = document.getElementById('confettiContainer');
+            const numHearts = 35; 
+
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                const size = Math.random() * 8 + 6; 
+                const duration = Math.random() * 8 + 7;
+                const delay = Math.random() * 10;
+
+                heart.style.width = heart.style.height = `${size}px`;
+                heart.style.left = `${Math.random() * 100}vw`; 
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.animationDelay = `-${delay}s`;
+                
+                container.appendChild(heart);
+            }
+        }
+
+
+        // --- 3. Main Initialization and Button Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('celebrateButton');
+            const music = document.getElementById('birthdayMusic');
+            const giftElement = document.getElementById('surpriseGift'); 
+            
+            type(); // Start the looped typing effect
+            generateHearts(); // Generate the falling hearts
+
+            button.addEventListener('click', () => {
+                if (music) {
+                    music.play().then(() => {
+                        console.log("Music is playing!");
+                    }).catch(error => {
+                        console.error("Audio playback failed:", error);
+                    });
+                }
+                
+                giftElement.classList.add('visible');
+                
+                button.textContent = "🥳Happy Boyfriend's Day, My Love!💖";
+                button.style.backgroundColor = '#880e4f';
+                button.disabled = true;
+                button.style.boxShadow = 'none';
+                button.style.transform = 'none';
+                
+                // Scroll to the surprise section after a delay
+                setTimeout(() => {
+                    document.getElementById('section-surprise').scrollIntoView({ behavior: 'smooth' });
+                }, 1500); 
+            });
+        });
+    </script>
+</body>
+</html>
